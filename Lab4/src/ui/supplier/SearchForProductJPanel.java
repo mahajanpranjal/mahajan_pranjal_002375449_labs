@@ -106,12 +106,12 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
                                             
         // TODO add your handling code here:
-        if(idField.getText() != null){
+     if(idField.getText().isBlank()){
             String searchTerm = idField.getText().trim();
             int id = Integer.parseInt(searchTerm);
             Product foundProduct = supplier.getProductCatalog().searchProduct(id);
             
-            if(foundProduct != null){
+            if(foundProduct.isBlank()){
                 ViewProductDetailJPanel viewProductPanel = new ViewProductDetailJPanel(workArea, foundProduct);
                 workArea.add("ViewProductJPanel", viewProductPanel);
                 CardLayout layout = (CardLayout) workArea.getLayout();
@@ -120,7 +120,6 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Product not found. Please check the Search term again", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
  
         
         
