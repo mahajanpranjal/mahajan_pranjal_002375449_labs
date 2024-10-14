@@ -6,6 +6,7 @@
 package model;
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -16,31 +17,49 @@ public class Product {
     private String name;
     private int price;
     private int id;
+    private ImageIcon logoImage;
     
+
+
+    public ImageIcon getLogoImage() {
+        return logoImage;
+    }
+
+    public void setLogoImage(ImageIcon logoImage) {
+        this.logoImage = logoImage;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Product.count = count;
+    }
+
     private ArrayList<Feature> features;
 
     public ArrayList<Feature> getFeatures() {
         return features;
     }
-public Feature addNewFeature() {
-    Feature newFeature = new Feature();
-    features.add(newFeature);
-    return newFeature;
-}
-
-
-   
-
+    
+    
+    
     private static int count = 0;
     
     public Product() {
         count++;
         id = count;
         
-        features = new ArrayList<Feature>();
+        features= new ArrayList<Feature>();
         
     }
 
+  public void addFeature(Feature feature, String value) {
+        features.add(feature);
+        feature.setValueForProduct(this, value);
+    }
+    
     public String getName() {
         return name;
     }
@@ -67,5 +86,9 @@ public Feature addNewFeature() {
     public String toString() {
         return name;
     }
+
+   
+
+   
     
 }

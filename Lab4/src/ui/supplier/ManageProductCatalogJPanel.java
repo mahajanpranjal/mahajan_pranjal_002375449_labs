@@ -28,9 +28,10 @@ public class ManageProductCatalogJPanel extends javax.swing.JPanel {
         initComponents();
         this.workArea = workArea;
         this.supplier = supplier;
-       if (supplier.getLogoImage() !=null) imgLogo.setIcon(supplier.getLogoImage());
-       else imgLogo.setText(" No Logo");
         
+        if(supplier.getLogoImage() !=null) imgLogo.setIcon(supplier.getLogoImage());
+        else imgLogo.setText("No Logo");
+       
         refreshTable();
     }
 
@@ -159,16 +160,18 @@ public class ManageProductCatalogJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         // TODO add your handling code here:
+        
         int row = tblProducts.getSelectedRow();
-        if (row < 0){
-            JOptionPane.showMessageDialog(null,"Please select a row from the table first", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
+        if (row <0){
+        JOptionPane.showMessageDialog(null, "Please Select a row from the table first", "Warning", JOptionPane.WARNING_MESSAGE);
+        return;
         }
-        Product selectedProduct = (Product) tblProducts.getValueAt(row,0);
-        ViewProductDetailJPanel vpdjp = new ViewProductDetailJPanel(workArea, selectedProduct);
-        workArea.add("ViewProductDetailJPanelSupplier",vpdjp);
+        Product seleProduct = (Product) tblProducts.getValueAt(row, 0);
+        ViewProductDetailJPanel vpdjp = new ViewProductDetailJPanel(workArea, seleProduct);
+        workArea.add("ViewProductDetails",vpdjp);
         CardLayout layout = (CardLayout) workArea.getLayout();
         layout.next(workArea);
+        
     }//GEN-LAST:event_btnViewActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
@@ -180,22 +183,26 @@ public class ManageProductCatalogJPanel extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+        
         SearchForProductJPanel sfpjp = new SearchForProductJPanel(workArea, supplier);
-        workArea.add("SearchForProductJPanel",sfpjp);
+        workArea.add("SearchForProductJpanel",sfpjp);
         CardLayout layout = (CardLayout) workArea.getLayout();
         layout.next(workArea);
+        
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-       int row = tblProducts.getSelectedRow();
-       if (row < 0) {
-           JOptionPane.showMessageDialog(null, "Please select a row from thr table first", "Warning", JOptionPane.WARNING_MESSAGE);
-           return;
-       }
-       Product selectedProduct =  (Product) tblProducts.getValueAt(row, 0);
-       supplier.getProductCatalog().removeProduct(selectedProduct);
-       refreshTable();
+        
+        int row = tblProducts.getSelectedRow();
+        if (row <0){
+        JOptionPane.showMessageDialog(null, "Please Select a row from the table first", "Warning", JOptionPane.WARNING_MESSAGE);
+        return;
+        }
+        Product seleProduct = (Product) tblProducts.getValueAt(row, 0);
+        supplier.getProductCatalog().removeProduct(seleProduct);
+        refreshTable();
+        
     }//GEN-LAST:event_btnDeleteActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;

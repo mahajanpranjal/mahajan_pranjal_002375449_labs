@@ -47,16 +47,12 @@ public class AddSupplier extends javax.swing.JPanel {
         this.workArea = workArea;
         this.supplierDirectory = supplierDirectory;
         
-        FileFilter jpegFilter = new FileNameExtensionFilter("JPEG file","jpg","jpeg");
-        FileFilter pngFilter = new FileNameExtensionFilter("PNG file","png","png");
+        FileFilter jpegFilter = new FileNameExtensionFilter("JPEG file", "jpg","jpeg");
+        FileFilter pngFilter = new FileNameExtensionFilter("PNG file", "png","png");
         
-        fileChooser.addChoosableFileFilter(jpegFilter);
         fileChooser.addChoosableFileFilter(pngFilter);
+        fileChooser.addChoosableFileFilter(jpegFilter);
         fileChooser.setFileFilter(pngFilter);
-        
-        
-
-        
         
     
     }
@@ -77,7 +73,7 @@ public class AddSupplier extends javax.swing.JPanel {
         backButton = new javax.swing.JButton();
         lblDescription = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtDes = new javax.swing.JTextArea();
         lblLogo = new javax.swing.JLabel();
         imgLogo = new javax.swing.JLabel();
         btnAttach = new javax.swing.JButton();
@@ -105,9 +101,9 @@ public class AddSupplier extends javax.swing.JPanel {
 
         lblDescription.setText("Description:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtDes.setColumns(20);
+        txtDes.setRows(5);
+        jScrollPane1.setViewportView(txtDes);
 
         lblLogo.setText("Logo:");
 
@@ -198,10 +194,18 @@ public class AddSupplier extends javax.swing.JPanel {
         // TODO add your handling code here:
         Supplier supplier = supplierDirectory.addSupplier();
         supplier.setSupplyName(txtName.getText());
+        supplier.setSupplyDes(txtDes.getText());
         supplier.setLogoImage(logoImage);
         
         JOptionPane.showMessageDialog(this, "Supplier successfully added", "Warning", JOptionPane.INFORMATION_MESSAGE);
         backAction();
+        
+        
+        
+        txtName.setText("");
+        txtDes.setText("");
+       
+                                        
     }//GEN-LAST:event_btnAddSupplierActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -211,28 +215,37 @@ public class AddSupplier extends javax.swing.JPanel {
 
     private void btnAttachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttachActionPerformed
         // TODO add your handling code here:
+        
         int returnVal = fileChooser.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION){
-            File file = fileChooser.getSelectedFile();
-            URL url;
-         try {
-             url = file.toURI().toURL();
-             logoImage = new ImageIcon(url);
-             logoImage = new ImageIcon(logoImage.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
-             
-             imgLogo.setIcon(logoImage);
-         } catch (MalformedURLException ex){
-             Logger.getLogger(this.getName()).log(Level.SEVERE, null , ex);
-             
-         }
+        
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        URL url;
+        
+        try {
+        url=file.toURI().toURL();
+        logoImage = new ImageIcon(url);
+        logoImage = new ImageIcon(logoImage.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+        
+        imgLogo.setIcon(logoImage);
+        }catch(MalformedURLException ex){
+        
+        Logger.getLogger(this.getName()).log(Level.SEVERE, null,ex);
         }
+            
+        
+        }
+        
         
     }//GEN-LAST:event_btnAttachActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         // TODO add your handling code here:
-        logoImage = null;
+        
+        
+        logoImage=null;
         imgLogo.setIcon(logoImage);
+        
   
         
     }//GEN-LAST:event_btnRemoveActionPerformed
@@ -255,11 +268,11 @@ public class AddSupplier extends javax.swing.JPanel {
     private javax.swing.JButton btnRemove;
     private javax.swing.JLabel imgLogo;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JTextArea txtDes;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 

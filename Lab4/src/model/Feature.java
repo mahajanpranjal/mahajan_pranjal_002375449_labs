@@ -5,19 +5,40 @@
  */
 package model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author archil
  */
 public class Feature {
-
     private Product owner;
     private String name;
     private Object value;
-
-    Feature() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private Map<Product, String> productValues;
+    
+   public Feature(String name) {
+        this.name = name;
+        this.productValues = new HashMap<>(); // Initialize the productValues map
     }
+
+    
+    public void setValueForProduct(Product product, String value) {
+        productValues.put(product, value);
+    }
+
+    // Get value for a specific product
+    public String getValueForProduct(Product product) {
+        return productValues.get(product);
+    }
+    
+    
+    
+   
+
+ 
+
     public Product getOwner() {
         return owner;
     }
@@ -42,24 +63,13 @@ public class Feature {
         this.value = value;
     }
     
-    
-    public Feature(Product owner){
-       this.owner = owner; 
-    }
-    
-    public Feature(Product owner,String name, Object value ){
-        this.name= name;
-        this.value = value;
-    }
-    
-    
     @Override
     public String toString(){
-        return name;
+    return name;
     }
+    
+    
 
 }
-
-
 
 

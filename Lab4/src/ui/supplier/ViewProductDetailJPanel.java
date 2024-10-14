@@ -7,6 +7,7 @@ package ui.supplier;
 import model.Product;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +33,8 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
         txtName.setText(this.product.getName());
         txtId.setText(String.valueOf(this.product.getId()));
         txtPrice.setText(String.valueOf(this.product.getPrice()));
+        if (product.getLogoImage() !=null) imgLogo.setIcon(product.getLogoImage());
+       else imgLogo.setText(" No Logo");
 
         refreshTable();
     }
@@ -58,6 +61,7 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
         tblFeatures = new javax.swing.JTable();
         btnAddFeature = new javax.swing.JButton();
         btnRemoveFeature = new javax.swing.JButton();
+        imgLogo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -127,6 +131,8 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
             }
         });
 
+        imgLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,7 +165,9 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
                         .addComponent(lblPrice)
                         .addGap(18, 18, 18)
                         .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(imgLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtId, txtName});
@@ -169,18 +177,21 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitle)
-                    .addComponent(backButton1))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblId)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrice))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTitle)
+                            .addComponent(backButton1))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblName)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblId)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPrice)))
+                    .addComponent(imgLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -225,6 +236,7 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
     
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+        
         product.setPrice(Integer.parseInt(txtPrice.getText()));
         product.setName(txtName.getText());
         saveFeatures();
@@ -236,12 +248,19 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
         btnAddFeature.setEnabled(false);
         btnRemoveFeature.setEnabled(false);
         
-        JOptionPane.showMessageDialog(this,"Product information saved", "Information",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Product has been saved", "information", JOptionPane.INFORMATION_MESSAGE);
+        
         
         refreshTable();
+        
+        
+        
+        
+        
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void saveFeatures() {
+        
         DefaultTableModel model = (DefaultTableModel) tblFeatures.getModel();
         
         for (int i = 0; i < model.getRowCount(); i++) {
@@ -249,46 +268,60 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
             currentFeature.setName((tblFeatures.getValueAt(i, 0).toString()));
             currentFeature.setValue(tblFeatures.getValueAt(i, 1));
         }
+
        
     }
 
     private void btnAddFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFeatureActionPerformed
         // TODO add your handling code here:
-Feature newFeature = product.addNewFeature();
-newFeature.setName("New Feature");
-newFeature.setValue("Type Value here");
+        
+      String featureName = JOptionPane.showInputDialog("Enter feature name:");
+        String featureValue = JOptionPane.showInputDialog("Enter feature value:");
 
-saveFeatures();
+        if (featureName != null && featureValue != null) {
+            Feature feature = new Feature(featureName); // Create a new feature
+            product.addFeature(feature, featureValue);  // Assign feature to product with value
+            refreshTable(); // Update the table
+        }
+        
 
-refreshTable();
         
        
     }//GEN-LAST:event_btnAddFeatureActionPerformed
 
     private void btnRemoveFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveFeatureActionPerformed
         // TODO add your handling code here:
- saveFeatures();
- 
- int selectedRow = tblFeatures.getSelectedRow();
- if (selectedRow < 0) {
-     JOptionPane.showMessageDialog(this, "Please select a row from the table first", "Warning", JOptionPane.WARNING_MESSAGE);
-     return;
- }
- product.getFeatures().remove(selectedRow);
- refreshTable();
+        
+        saveFeatures();
+        
+        int selectedRow = tblFeatures.getSelectedRow();
+        if (selectedRow < 0) {
+        
+        JOptionPane.showMessageDialog(this, "Please select a row from the table first", "Warning", JOptionPane.WARNING_MESSAGE);
+        return;
+        }
+        product.getFeatures().remove(selectedRow);
+        refreshTable();
+
        
     }//GEN-LAST:event_btnRemoveFeatureActionPerformed
 
     public void refreshTable() {
-DefaultTableModel model = (DefaultTableModel) tblFeatures.getModel();
-model.setRowCount(0);
+        
+        DefaultTableModel model = (DefaultTableModel) tblFeatures.getModel();
+        model.setRowCount(0);
+        
+        // Get the list of features for the product
+        List<Feature> features = product.getFeatures();
+        
+        // Populate table with features
+        for (Feature feature : features) {
+            Object[] row = new Object[2]; // Assuming each feature has a name and a value
+            row[0] = feature.getName();
+            row[1] = feature.getValueForProduct(product); // Fetch value for specific product
+            model.addRow(row);
+        }
 
-for (Feature f : product.getFeatures()) {
-    Object row[] = new Object[2];
-    row[0] = f;
-    row[1] = f.getValue() == null ? "Empty" : f.getValue().toString();
-    model.addRow(row);
-}
         
     }
 
@@ -299,6 +332,7 @@ for (Feature f : product.getFeatures()) {
     private javax.swing.JButton btnRemoveFeature;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel imgLogo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblName;

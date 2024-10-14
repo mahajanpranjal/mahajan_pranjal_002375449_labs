@@ -8,8 +8,8 @@ package ui.supplier;
 import model.Product;
 import model.Supplier;
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 
 
@@ -95,7 +95,7 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchButton))
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {idField, searchButton});
@@ -103,9 +103,26 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+                                            
+        // TODO add your handling code here:
+        if(idField.getText() != null){
+            String searchTerm = idField.getText().trim();
+            int id = Integer.parseInt(searchTerm);
+            Product foundProduct = supplier.getProductCatalog().searchProduct(id);
+            
+            if(foundProduct != null){
+                ViewProductDetailJPanel viewProductPanel = new ViewProductDetailJPanel(workArea, foundProduct);
+                workArea.add("ViewProductJPanel", viewProductPanel);
+                CardLayout layout = (CardLayout) workArea.getLayout();
+                layout.next(workArea);
+            } else {
+                JOptionPane.showMessageDialog(null, "Product not found. Please check the Search term again", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         
-    
-
+ 
+        
         
 }//GEN-LAST:event_searchButtonActionPerformed
 

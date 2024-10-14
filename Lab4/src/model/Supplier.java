@@ -15,6 +15,15 @@ public class Supplier {
     
     private String supplyName;
     private ProductCatalog productCatalog;
+    private String SupplyDes;
+
+    public String getSupplyDes() {
+        return SupplyDes;
+    }
+
+    public void setSupplyDes(String SupplyDes) {
+        this.SupplyDes = SupplyDes;
+    }
     private ImageIcon logoImage;
 
     public ImageIcon getLogoImage() {
