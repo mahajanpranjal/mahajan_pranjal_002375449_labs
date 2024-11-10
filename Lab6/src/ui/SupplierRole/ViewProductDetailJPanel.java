@@ -137,18 +137,20 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-
+userProcessContainer.remove(this);
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.previous(userProcessContainer);
         backAction();
     }//GEN-LAST:event_btnBackActionPerformed
 
       private void backAction() {
-//        userProcessContainer.remove(this);
-//        Component[] componentArray = userProcessContainer.getComponents();
-//        Component component = componentArray[componentArray.length - 1];
-//        ManageProductCatalogJPanel manageProductCatalogJPanel = (ManageProductCatalogJPanel) component;
-//        manageProductCatalogJPanel.refreshTable();
-//        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
-//        layout.previous(userProcessContainer);
+        userProcessContainer.remove(this);
+        Component[] componentArray = userProcessContainer.getComponents();
+        Component component = componentArray[componentArray.length - 1];
+        ManageProductCatalogJPanel manageProductCatalogJPanel = (ManageProductCatalogJPanel) component;
+        manageProductCatalogJPanel.refreshTable();
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.previous(userProcessContainer);
     }
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         product.setPrice(Integer.parseInt(txtPrice.getText()));

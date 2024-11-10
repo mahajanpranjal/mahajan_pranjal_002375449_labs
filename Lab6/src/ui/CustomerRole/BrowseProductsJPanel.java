@@ -328,7 +328,18 @@ public class BrowseProductsJPanel extends javax.swing.JPanel {
 
     private void btnProductDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductDetailsActionPerformed
         // TODO add your handling code here:
-     
+        
+        int selectedRowIndex = tblProductCatalog.getSelectedRow();
+        if(selectedRowIndex < 0) {
+         JOptionPane.showMessageDialog(this, "Please select the product first!!");
+         return;
+        }
+        
+        Product product = (Product) tblProductCatalog.getValueAt(selectedRowIndex, 0);
+        ViewProductDetailJPanel vpdj = new ViewProductDetailJPanel(userProcessContainer, product);
+        userProcessContainer.add("ViewProductDetailJPanel", vpdj);
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.next(userProcessContainer);
         
     }//GEN-LAST:event_btnProductDetailsActionPerformed
 
@@ -359,7 +370,36 @@ public class BrowseProductsJPanel extends javax.swing.JPanel {
 
     private void btnModifyQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyQuantityActionPerformed
         // TODO add your handling code here:
+        int selectedRowIndex = tblCart.getSelectedRow();
+        if(selectedRowIndex < 0) {
+         JOptionPane.showMessageDialog(this, "Please select the product first!!");
+         return;
+        }
         
+        OrderItems orderItem = (OrderItems) tblCart.getValueAt(selectedRowIndex, 0);
+        
+        int quant = 0;
+        
+        try{
+            
+           
+            quant = Integer.parseInt(txtNewQuantity.getText());
+        
+        
+        }catch(Exception e){
+        JOptionPane.showMessageDialog(this, "Please Modify quantity Fields!");
+        return;
+        }
+        
+         int oldQuant = orderItem.getQuantity();
+            if(orderItem.getProduct().getAvail() + oldQuant < quant) {
+            JOptionPane.showMessageDialog(this, "Please check product availability!!");
+            return;
+            
+            }
+            
+            orderItem.getProduct().setAvail(orderItem.getProduct().getAvail()+oldQuant-quant);
+            orderItem.setQuantity(quant);
             
               
         populateCartTable();
@@ -581,3 +621,4 @@ public class BrowseProductsJPanel extends javax.swing.JPanel {
         }
     }
 }
+
